@@ -1,0 +1,104 @@
+/* Blurred Background */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    backdrop-filter: blur(5px); /* Blur effect */
+    z-index: 10; 
+  }
+  
+  /* Profile Overlay */
+  .profile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20; 
+  }
+  
+  .profile-box {
+    width: 50vw;
+    height: 60vh;
+    background: black;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .close-button {
+    margin-left: 45vw; 
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+ 
+  .gender-slider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
+  
+  .slider-container {
+    width: 80%;
+    overflow: hidden;
+  }
+  
+  .slider-track {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .slide {
+    min-width: 100%;
+    text-align: center;
+  }
+  
+  .slide img {
+    width: 20vw;
+    height: 30vh;
+    margin-bottom: 10vh;
+  }
+  
+  .arrow {
+    background: none;
+    color: white;
+    border: none;
+    font-size: 5vh;
+    cursor: pointer;
+    margin-bottom: 10vh;
+  }
+  
+  .arrow:hover {
+    color: white;
+  }
+  
+  /* Slider Dots */
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background: #6c63ff;
+  }
