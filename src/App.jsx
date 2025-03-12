@@ -8,17 +8,20 @@ import { MdOutlineVerifiedUser } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
 import { GoFileDirectory } from "react-icons/go";
 import { FaArrowDownLong } from "react-icons/fa6";
+import { BiFontFamily, BiMessageAltDetail } from "react-icons/bi";
+import { GoBook } from "react-icons/go"; 
+import { HiOutlineGift } from "react-icons/hi"; 
+import { RiUserCommunityFill } from "react-icons/ri"; 
 
 
 
 const App = () => {
   return (
     <div>
-
       <div>
         <div className='container'>
           <div className='title'>
-              <h3 className='title1'>Cura</h3>
+              <h3 className='cura'>Cura</h3>
               <h3>Tales</h3>
           </div>
           <div className='sections'>
@@ -89,16 +92,83 @@ const App = () => {
 
         <div className='down-arrow'><FaArrowDownLong /></div>
       </div>
-      
-      <div>
-        <div>
-          <h4>WHO WE ARE</h4>
-          <h1>Reviving Ancestral Healing Wisdom</h1>
-        </div>
 
-        <div></div>
-        <div></div>
+      <div className='section2'>
+            <div className='section2-head'>
+              <h4 className='who'>WHO WE ARE</h4>
+              <h1>Reviving Ancestral Healing Wisdom</h1>
+              <div className='line'></div>
+            </div>
+
+            <div className='about'>
+              <div>
+                <div>
+                  <div className='our'>Our Mission</div> <br />
+                  <div className='about1'>
+                    CuraTales was created with a simple yet powerful mission: to preserve and share traditional healing <br />
+                    wisdom that has been passed down through generations. In a world dominated by modern <br />
+                    medicine, we believe there's immense value in the time-tested remedies our ancestors relied upon.
+                  </div> <br />
+                  <div>
+                    We provide a platform where people can discover natural solutions for common ailments without <br />
+                    side effects, using ingredients often found right in their kitchen. By building a community of <br />
+                    knowledge-sharers, we aim to keep traditional healing practices alive and accessible to everyone.
+                  </div> <br />
+
+                  <div className='cups4'>
+
+                    <div >
+                      <div className='cups'>
+                        <div className='percents'>100+</div> <br />
+                        <div>Traditional Remedies</div>
+                      </div> <br />
+                      <div className='cups'>
+                        <div className='percents'>50+</div><br />
+                        <div>Ailment Categories</div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className='cups'>
+                        <div className='percents'>15k+</div><br />
+                        <div>Community Members</div>
+                      </div> <br />
+                      <div className='cups'>
+                        <div className='percents'>100%</div><br />
+                        <div>Natural Solutions</div>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                </div>
+              </div>
+
+              <div>
+                <div className='found-box'>
+                    <div className='msg'><BiMessageAltDetail /></div>
+                    <div className='whispers'>
+                      "In the whispers of our elders lie the secrets to natural healing that modern <br />
+                      medicine often overlooks. These remedies, tested through time, are our heritage <br />
+                      and our future."
+                    </div>
+                    <div className='about-profile'>
+                      <div className='circle4'><b>AD</b></div>
+                      <div><span><b>Aanya Desai</b></span> <br />
+                      Founder, CuraTales</div>
+                    </div>
+                </div>
+                <div className='found-icons'>
+                  <h1 className='found-icon'><GoBook /></h1>
+                  <h1 className='found-icon'><RiUserCommunityFill /></h1>
+                  <h1 className='found-icon'><HiOutlineGift /> </h1>
+                </div>
+              </div>
+              
+            
+          </div>
       </div>
+        
       
     </div>
     
