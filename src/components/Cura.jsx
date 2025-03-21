@@ -1,4 +1,4 @@
-import './Cura.css'
+// import './Cura.css'
 import { useState } from 'react'
 
 function Cura(){
