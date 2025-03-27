@@ -1,11 +1,13 @@
 import react from 'react'
-import Navbar from './navbar'
+import Navbar from './Navbar'
+import {Link} from 'react-router-dom';
 
 const Landing = () => {
     return (
         <div>
             <Navbar/>
 
+            {/* section1 */}
             <section className="bg-neutral-900 text-white pt-24 pb-16 md:py-32 min-h-[70vh] flex items-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#5E8B7E] opacity-10 rounded-full -mr-20 -mt-20" ></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#E2703A] opacity-10 rounded-full -ml-48 -mb-48" ></div>
@@ -110,6 +112,8 @@ const Landing = () => {
                 </a>
             </div>
             </section>
+
+            {/* section2 */}
 
             <section id="about" className="py-20 bg-white">
                 <div className="container mx-auto px-4">
@@ -239,7 +243,8 @@ const Landing = () => {
                 </div>
             </section>
 
-            
+            {/* section3 */}
+
             <section id="features" className="py-20 bg-neutral-100">
                 <div className="container mx-auto px-4">
                 <div className="text-center mb-16 animate__animated animate__fadeIn" style={{ visibility: 'visible', animationDelay: '0s' }}>
@@ -295,6 +300,7 @@ const Landing = () => {
                     </div>
 
                     {/* <!-- Feature 2 --> */}
+
                     <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:-translate-y-2 animate__animated animate__fadeInUp animate__delay-1s" style={{ visibility: 'visible', animationDelay: '0s' }}>
                     <div className="h-3 bg-[#E2703A]"></div>
                     <div className="p-6">
@@ -337,6 +343,7 @@ const Landing = () => {
                     </div>
 
                     {/* <!-- Feature 3 --> */}
+
                     <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:-translate-y-2 animate__animated animate__fadeInUp animate__delay-2s"  style={{ visibility: 'visible', animationDelay: '0s' }}>
                     <div className="h-3 bg-[#A7C4BC]" ></div>
                     <div className="p-6" >
@@ -379,6 +386,7 @@ const Landing = () => {
                     </div>
 
                     {/* <!-- Feature 4 --> */}
+
                     <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:-translate-y-2 animate__animated animate__fadeInUp" style={{ visibility: 'visible', animationDelay: '0s' }}>
                     <div className="h-3 bg-[#5E8B7E]"></div>
                     <div className="p-6">
@@ -421,6 +429,7 @@ const Landing = () => {
                     </div>
 
                     {/* <!-- Feature 5 --> */}
+
                     <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:-translate-y-2 animate__animated animate__fadeInUp animate__delay-1s" style={{ visibility: 'visible', animationDelay: '0s' }}>
                     <div className="h-3 bg-[#E2703A]"></div>
                     <div className="p-6">
@@ -463,6 +472,7 @@ const Landing = () => {
                     </div>
 
                     {/* <!-- Feature 6 --> */}
+
                     <div className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:-translate-y-2 animate__animated animate__fadeInUp animate__delay-2s" style={{ visibility: 'visible', animationDelay: '0s' }}>
                     <div className="h-3 bg-[#A7C4BC]"></div>
                     <div className="p-6">
@@ -522,6 +532,226 @@ const Landing = () => {
                 </div>
                 </div>
             </section>
+
+
+            {/* section4 */}
+            <section className="remedies py-20 bg-neutral-900 text-white">
+                <div className="container mx-auto px-4">
+                <div className="text-center mb-16 animate__animated animate__fadeIn" style={{visibility: "visible", animationDelay: "0s"}}>
+                    <span className="text-[#E2703A] uppercase tracking-wider text-sm font-medium font-['Poppins,_sans-serif']">Popular Remedies</span>
+                    <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Merriweather,_serif']">Traditional Cures For Common Ailments</h2>
+                    <div className="w-20 h-1 bg-[#A7C4BC] mx-auto mt-4"></div>
+                    <p className="text-white opacity-80 mt-6 max-w-3xl mx-auto font-['Poppins,_sans-serif']">
+                    Discover time-tested natural remedies passed down through generations. These solutions use simple ingredients found in most kitchens.
+                    </p>
+                </div>
+
+
+                {/* Remedy Cards */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 remedy-cards">
+                    {/* Remedy Card 1 */}
+                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="cold">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Cold &amp; Cough</span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Turmeric Milk (Golden Milk)</h3>
+                        </div>
+                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            4.9
+                        </div>
+                        </div>
+                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
+                        A powerful remedy for colds, coughs, and respiratory infections. Boosts immunity and reduces inflammation.
+                        </p>
+                        
+                        <div className="mb-5">
+                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
+                        <div className="flex flex-wrap gap-2">
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 cup milk</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp turmeric</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Pinch of black pepper</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Honey to taste</span>
+                        </div>
+                        </div>
+                        
+                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
+                        View Full Recipe
+                        </button>
+                    </div>
+                    </div>
+                    
+                    {/* Remedy Card 2 */}
+                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="fever">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Fever</span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Basil Leaf Tea</h3>
+                        </div>
+                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            4.7
+                        </div>
+                        </div>
+                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
+                        A natural fever reducer that helps cool the body and boost immunity. Also relieves headaches and body pain.
+                        </p>
+                        
+                        <div className="mb-5">
+                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
+                        <div className="flex flex-wrap gap-2">
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">15-20 basil leaves</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 cup water</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1/2 tsp ginger (grated)</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Honey to taste</span>
+                        </div>
+                        </div>
+                        
+                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
+                        View Full Recipe
+                        </button>
+                    </div>
+                    </div>
+                    
+                    {/* Remedy Card 3 */}
+                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="digestive">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Digestive</span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Jeera Water (Cumin Water)</h3>
+                        </div>
+                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            4.8
+                        </div>
+                        </div>
+                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
+                        A simple yet effective remedy for digestive issues like bloating, gas, and indigestion. Improves metabolism.
+                        </p>
+                        
+                        <div className="mb-5">
+                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
+                        <div className="flex flex-wrap gap-2">
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp cumin seeds</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">2 cups water</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Lemon slice (optional)</span>
+                        </div>
+                        </div>
+                        
+                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
+                        View Full Recipe
+                        </button>
+                    </div>
+                    </div>
+                    
+                    {/* Remedy Card 4 */}
+                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="skin">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Skin Care</span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Turmeric &amp; Honey Face Mask</h3>
+                        </div>
+                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            4.9
+                        </div>
+                        </div>
+                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
+                        Natural face mask for clear, glowing skin. Reduces acne, lightens scars, and fights signs of aging.
+                        </p>
+                        
+                        <div className="mb-5">
+                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
+                        <div className="flex flex-wrap gap-2">
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp turmeric</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tbsp raw honey</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp yogurt</span>
+                        </div>
+                        </div>
+                        
+                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
+                        View Full Recipe
+                        </button>
+                    </div>
+                    </div>
+                    
+                    {/* Remedy Card 5 */}
+                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="pain">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Pain Relief</span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Ginger &amp; Turmeric Tea</h3>
+                        </div>
+                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            4.6
+                        </div>
+                        </div>
+                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
+                        Powerful anti-inflammatory tea that helps reduce joint pain, muscle soreness, and menstrual cramps.
+                        </p>
+                        
+                        <div className="mb-5">
+                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
+                        <div className="flex flex-wrap gap-2">
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 inch ginger root</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1/2 tsp turmeric</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 cup water</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Lemon &amp; honey</span>
+                        </div>
+                        </div>
+                        
+                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
+                        View Full Recipe
+                        </button>
+                    </div>
+                    </div>
+                    
+                    {/* Remedy Card 6 */}
+                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="cold">
+                    <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Cold &amp; Cough</span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Honey &amp; Ginger Syrup</h3>
+                        </div>
+                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            4.8
+                        </div>
+                        </div>
+                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
+                        Natural cough syrup that soothes sore throats, reduces coughing, and clears congestion. Safe for children.
+                        </p>
+                        
+                        <div className="mb-5">
+                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
+                        <div className="flex flex-wrap gap-2">
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">2 tbsp raw honey</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tbsp ginger juice</span>
+                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">2 tsp lemon juice</span>
+                        </div>
+                        </div>
+                        
+                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
+                        View Full Recipe
+                        </button>
+                    </div>
+                    </div>
+                </div>
+                
+                {/* Load More Button */}
+                <div className="text-center mt-12">
+                    <Link to='/Remedies' >
+                        <button className="bg-[#5E8B7E] hover:bg-[#497a6d] text-white py-3 px-8 rounded-lg transition duration-300 font-['Poppins,_sans-serif']">
+                        View More Remedies
+                        </button>
+                    </Link>
+                </div>
+                
+                
+                </div>
+            </section>
+
         </div>
     )
 }
