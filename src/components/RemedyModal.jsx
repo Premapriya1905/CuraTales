@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 export default function RemedyModal({ remedy, onClose }) {
   // Prevent background scrolling when modal is open
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflowX = 'hidden';
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflowX = 'auto';
     };
   }, []);
 

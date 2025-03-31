@@ -1,8 +1,45 @@
-import react from 'react'
+import {useState, useEffect, useRef} from 'react'
 import Navbar from './Navbar'
+import remediesData from '../Data/remediesData'
+import RemedyModal from './RemedyModal'
 import {Link} from 'react-router-dom';
 
 const Landing = () => {
+    const [selectedRemedy, setSelectedRemedy] = useState(null);
+    const firstSixRemedies = remediesData.slice(0, 6);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        closeModal();
+      }
+    };
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [isModalOpen]);
+
     return (
         <div>
             <Navbar/>
@@ -546,198 +583,69 @@ const Landing = () => {
                     </p>
                 </div>
 
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4 remedy-tabs mb-15" id="el-hmbecuv4">
+                    <button class="px-5 py-2 rounded-full bg-[#5E8B7E] text-white active font-['Poppins,_sans-serif']" data-category="all" id="el-kmomauvw">All Remedies</button>
+                    <button class="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']" data-category="cold" id="el-tdxggd77">Cold &amp; Cough</button>
+                    <button class="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']" data-category="fever" id="el-u5yeosgu">Fever</button>
+                    <button class="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']" data-category="digestive" id="el-zfb8cvsv">Digestive</button>
+                    <button class="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']" data-category="skin" id="el-6df1jomi">Skin Care</button>
+                    <button class="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']" data-category="pain" id="el-3ar64zlk">Pain Relief</button>
+                </div>
 
                 {/* Remedy Cards */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 remedy-cards">
-                    {/* Remedy Card 1 */}
-                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="cold">
-                    <div className="p-6">
+                    {firstSixRemedies.map((remedy) => (
+                    <div 
+                        key={remedy.id}
+                        className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" 
+                        data-category={remedy.category.toLowerCase().replace(' & ', '-').replace(' ', '-')}
+                    >
+                        <div className="p-6">
                         <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Cold &amp; Cough</span>
-                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Turmeric Milk (Golden Milk)</h3>
-                        </div>
-                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
-                            4.9
-                        </div>
+                            <div>
+                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">
+                                {remedy.category}
+                            </span>
+                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">{remedy.title}</h3>
+                            </div>
+                            <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
+                            {remedy.rating}
+                            </div>
                         </div>
                         <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
-                        A powerful remedy for colds, coughs, and respiratory infections. Boosts immunity and reduces inflammation.
+                            {remedy.shortDescription}
                         </p>
                         
                         <div className="mb-5">
-                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 cup milk</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp turmeric</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Pinch of black pepper</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Honey to taste</span>
-                        </div>
+                            <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">
+                            Ingredients
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                            {remedy.ingredients.map((ingredient, index) => (
+                                <span key={index} className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">
+                                {ingredient}
+                                </span>
+                            ))}
+                            </div>
                         </div>
                         
-                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
-                        View Full Recipe
+                        <button 
+                            onClick={() => setSelectedRemedy(remedy)}
+                            className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']"
+                        >
+                            Instructions
                         </button>
+                        </div>
                     </div>
-                    </div>
-                    
-                    {/* Remedy Card 2 */}
-                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="fever">
-                    <div className="p-6">
-                        <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Fever</span>
-                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Basil Leaf Tea</h3>
-                        </div>
-                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
-                            4.7
-                        </div>
-                        </div>
-                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
-                        A natural fever reducer that helps cool the body and boost immunity. Also relieves headaches and body pain.
-                        </p>
-                        
-                        <div className="mb-5">
-                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">15-20 basil leaves</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 cup water</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1/2 tsp ginger (grated)</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Honey to taste</span>
-                        </div>
-                        </div>
-                        
-                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
-                        View Full Recipe
-                        </button>
-                    </div>
-                    </div>
-                    
-                    {/* Remedy Card 3 */}
-                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="digestive">
-                    <div className="p-6">
-                        <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Digestive</span>
-                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Jeera Water (Cumin Water)</h3>
-                        </div>
-                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
-                            4.8
-                        </div>
-                        </div>
-                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
-                        A simple yet effective remedy for digestive issues like bloating, gas, and indigestion. Improves metabolism.
-                        </p>
-                        
-                        <div className="mb-5">
-                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp cumin seeds</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">2 cups water</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Lemon slice (optional)</span>
-                        </div>
-                        </div>
-                        
-                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
-                        View Full Recipe
-                        </button>
-                    </div>
-                    </div>
-                    
-                    {/* Remedy Card 4 */}
-                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="skin">
-                    <div className="p-6">
-                        <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Skin Care</span>
-                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Turmeric &amp; Honey Face Mask</h3>
-                        </div>
-                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
-                            4.9
-                        </div>
-                        </div>
-                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
-                        Natural face mask for clear, glowing skin. Reduces acne, lightens scars, and fights signs of aging.
-                        </p>
-                        
-                        <div className="mb-5">
-                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp turmeric</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tbsp raw honey</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tsp yogurt</span>
-                        </div>
-                        </div>
-                        
-                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
-                        View Full Recipe
-                        </button>
-                    </div>
-                    </div>
-                    
-                    {/* Remedy Card 5 */}
-                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="pain">
-                    <div className="p-6">
-                        <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Pain Relief</span>
-                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Ginger &amp; Turmeric Tea</h3>
-                        </div>
-                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
-                            4.6
-                        </div>
-                        </div>
-                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
-                        Powerful anti-inflammatory tea that helps reduce joint pain, muscle soreness, and menstrual cramps.
-                        </p>
-                        
-                        <div className="mb-5">
-                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 inch ginger root</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1/2 tsp turmeric</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 cup water</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">Lemon &amp; honey</span>
-                        </div>
-                        </div>
-                        
-                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
-                        View Full Recipe
-                        </button>
-                    </div>
-                    </div>
-                    
-                    {/* Remedy Card 6 */}
-                    <div className="bg-neutral-800 rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 remedy-card" data-category="cold">
-                    <div className="p-6">
-                        <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <span className="inline-block bg-[#5E8B7E] bg-opacity-20 text-[#A7C4BC] text-xs px-3 py-1 rounded-full mb-2 font-['Poppins,_sans-serif']">Cold &amp; Cough</span>
-                            <h3 className="text-xl font-semibold font-['Merriweather,_serif']">Honey &amp; Ginger Syrup</h3>
-                        </div>
-                        <div className="bg-[#E2703A] text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center">
-                            4.8
-                        </div>
-                        </div>
-                        <p className="text-neutral-300 mb-4 font-['Poppins,_sans-serif']">
-                        Natural cough syrup that soothes sore throats, reduces coughing, and clears congestion. Safe for children.
-                        </p>
-                        
-                        <div className="mb-5">
-                        <h4 className="text-sm uppercase tracking-wider text-neutral-400 mb-2 font-['Poppins,_sans-serif']">Ingredients</h4>
-                        <div className="flex flex-wrap gap-2">
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">2 tbsp raw honey</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">1 tbsp ginger juice</span>
-                            <span className="bg-neutral-700 text-xs px-2 py-1 rounded font-['Poppins,_sans-serif']">2 tsp lemon juice</span>
-                        </div>
-                        </div>
-                        
-                        <button className="remedy-detail-btn text-[#E2703A] hover:text-white hover:bg-[#E2703A] border border-[#E2703A] py-2 px-4 rounded-lg transition duration-300 w-full font-['Poppins,_sans-serif']">
-                        View Full Recipe
-                        </button>
-                    </div>
-                    </div>
+                    ))}
                 </div>
+
+                {/* Remedy Modal */}
+                <RemedyModal 
+                    remedy={selectedRemedy} 
+                    onClose={() => setSelectedRemedy(null)} 
+                />
+                <div/>
                 
                 {/* Load More Button */}
                 <div className="text-center mt-12">
@@ -748,9 +656,320 @@ const Landing = () => {
                     </Link>
                 </div>
                 
+                </div>
+            </section>
+
+            {/* section5 */}
+            <section id="community" className="py-16 bg-neutral-50 dark:bg-neutral-900">
+                <div className="container mx-auto px-4" >
+                <div className="text-center mb-12" >
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-emerald-700 dark:text-emerald-400" >Join Our Healing Community</h2>
+                    <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto" >Connect with like-minded individuals who share your passion for traditional healing methods and home remedies.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" >
+                    {/* <!-- Community Feature 1 --> */}
+
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6 transition-transform hover:scale-105" >
+                    <div className="h-14 w-14 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mb-4 mx-auto" >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" id="el-kvr6w9is"></path>
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-center mb-3 text-gray-800 dark:text-white" >Discussion Forums</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-center" >Engage in meaningful conversations about traditional remedies, share your experiences, and learn from others.</p>
+                    </div>
+
+                    {/* <!-- Community Feature 2 --> */}
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6 transition-transform hover:scale-105" >
+                    <div className="h-14 w-14 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mb-4 mx-auto" >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="el-v4d6lvpm">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" id="el-xpqjhd4t"></path>
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-center mb-3 text-gray-800 dark:text-white" >Member Contributions</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-center" >Submit your family's traditional remedies and receive feedback from our community of healing enthusiasts.</p>
+                    </div>
+
+                    {/* <!-- Community Feature 3 --> */}
+
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6 transition-transform hover:scale-105" >
+                    <div className="h-14 w-14 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mb-4 mx-auto" >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" id="el-wrlt3kix"></path>
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-center mb-3 text-gray-800 dark:text-white" >Verified Remedies</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-center" >Community-voted and expert-reviewed remedies to ensure safety and effectiveness for common ailments.</p>
+                    </div>
+                </div>
+
+                
+                
+                <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg overflow-hidden mb-10">
+                    <div className="overflow-x-auto">
+                    
+                    </div>
+                </div>
+                
+                <div className="text-center">
+                    <a href="#community" className="inline-block px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-colors duration-300" target="_self">
+                    Join Our Community
+                    </a>
+                    <p className="mt-4 text-gray-600 dark:text-gray-400">Already a member? <a href="#community" className="text-emerald-600 dark:text-emerald-400 hover:underline" target="_self">Sign in</a></p>
+                </div>
                 
                 </div>
             </section>
+
+            {/* section6 */}
+            <section id="recipes" className="py-16 bg-neutral-50 dark:bg-neutral-900">
+                <div className="container mx-auto px-4" id="el-k2b0wg53">
+                <div className="text-center mb-12" id="el-p5svbt7u">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-emerald-700 dark:text-emerald-400" id="el-ib4f0998">Healthy Recipes</h2>
+                    <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto" id="el-2ob6t3ho">Discover nutritious and delicious recipes passed down through generations to nourish your body and soul.</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="el-crqszbdp">
+                    {/* <!-- Recipe Card 1 --> */}
+
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105" id="el-od432w1g">
+                    <div className="h-48 bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center" id="el-gm9zmc83">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="el-auiac0w6">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" id="el-befx1d2g"></path>
+                        </svg>
+                    </div>
+                    <div className="p-6" id="el-rzpk63ti">
+                        <div className="flex justify-between items-center mb-3" id="el-szmu6fxd">
+                        <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full" id="el-xmwu7d1k">Immunity Booster</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400" id="el-ljue7u3h">20 min</span>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white" id="el-luoj3lar">Turmeric Golden Milk</h3>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4" id="el-ck853ptg">Ancient remedy for inflammation and immunity, passed down through generations.</p>
+                        <div className="flex items-center justify-between" id="el-1hsnzpyq">
+                        <div className="flex items-center" id="el-dkzbzxqr">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-dqzzd3yp">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-3pd35uh1"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-rw9bpa36">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-1hocfecq"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-uh7o1k91">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-w4olzzq4"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-q7tnx3s2">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-1vx1cbu0"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-dela75m7">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-ozgrcod7"></path>
+                            </svg>
+                        </div>
+                        <a href="#community" className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium" id="el-p4llr2bu" target="_self">View Recipe</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    {/* <!-- Recipe Card 2 --> */}
+
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105" id="el-qi4yftwk">
+                    <div className="h-48 bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center" id="el-ws5j1mft">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="el-7ma1lka9">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" id="el-pnotnyhd"></path>
+                        </svg>
+                    </div>
+                    <div className="p-6" id="el-r0cxkpn2">
+                        <div className="flex justify-between items-center mb-3" id="el-5venw7oi">
+                        <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full" id="el-a47siryc">Digestive Health</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400" id="el-ufze672t">30 min</span>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white" id="el-gianol30">Ginger &amp; Lemon Soup</h3>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4" id="el-pshnmdj3">Traditional remedy for digestive issues and cold symptoms, loved by generations.</p>
+                        <div className="flex items-center justify-between" id="el-0ariongb">
+                        <div className="flex items-center" id="el-yhunyap2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-hoq5smd5">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-l7s2v1xa"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-6730fyg4">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-9gjkz75b"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-sn13m5rc">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-6olyu5i0"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-hsc9q3j9">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-a00u2ny1"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-300 dark:text-gray-600" viewBox="0 0 20 20" fill="currentColor" id="el-spd032dq">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-1d0ojyls"></path>
+                            </svg>
+                        </div>
+                        <a href="#community" className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium" id="el-dy5m58v6" target="_self">View Recipe</a>
+                        </div>
+                    </div>
+                    </div>
+
+                    {/* <!-- Recipe Card 3 --> */}
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105" id="el-izq5lw3y">
+                    <div className="h-48 bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center" id="el-okqopk83">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="el-r1lwqf1n">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" id="el-t0d43oy2"></path>
+                        </svg>
+                    </div>
+                    <div className="p-6" id="el-8470cp8u">
+                        <div className="flex justify-between items-center mb-3" id="el-unfxdabq">
+                        <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full" id="el-mjr40gd7">Energy Boost</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400" id="el-fsoyhduh">15 min</span>
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white" id="el-yar6i5vk">Honey Almond Porridge</h3>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4" id="el-jjnby6sn">Wholesome breakfast recipe to boost energy and maintain health throughout the day.</p>
+                        <div className="flex items-center justify-between" id="el-vphfginx">
+                        <div className="flex items-center" id="el-e62zex9u">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-iwmupf7h">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-jbiqy2ya"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-o5vu2a2b">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-wypaldma"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-in586p4k">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-8iw8v1vy"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-t703dgf3">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-o7kuopnv"></path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor" id="el-dtraseh4">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" id="el-vlbcoktx"></path>
+                            </svg>
+                        </div>
+                        <a href="#community" className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium" id="el-rw9htbkd" target="_self">View Recipe</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                
+                
+            
+                
+                {/* Submit Recipe CTA */}
+                <div className="bg-emerald-100 dark:bg-emerald-900/30 rounded-xl p-8 text-center">
+                    <h3 className="text-2xl font-bold mb-4 text-emerald-800 dark:text-emerald-200">
+                    Share Your Family's Wisdom
+                    </h3>
+                    <p className="text-emerald-700 dark:text-emerald-300 mb-6 max-w-2xl mx-auto">
+                    Do you have a traditional recipe passed down through generations?
+                    </p>
+                    <button
+                    onClick={openModal}
+                    className="inline-block px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors duration-300"
+                    >
+                    Submit Your Remedy
+                    </button>
+                </div>
+
+                {/* Modal */}
+                {isModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div 
+                        ref={modalRef}
+                        className="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
+                    >
+                        <div className="flex justify-between items-center mb-6">
+                        <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                            Submit Your Remedy
+                        </h3>
+                        <button
+                            onClick={closeModal}
+                            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                        >
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                            </svg>
+                        </button>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-neutral-800 rounded-lg shadow-md p-8" id="el-3qllha91">
+                            <h3 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-white" id="el-nollvv8a">Submit Your Remedy</h3>
+                            
+                            <form id="el-vxf201nf">
+                                <div class="mb-5" id="el-o4fisax8">
+                                <label for="remedyTitle" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-8rrv9oh0">Remedy Title*</label>
+                                <input type="text" id="remedyTitle" name="remedyTitle" placeholder="e.g., Grandmother's Ginger Tea for Colds" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white" required="" />
+                                </div>
+                                
+                                <div class="mb-5" id="el-q7pxp7bk">
+                                <label for="ailmentCategory" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-jmep6t84">For Which Ailment/Condition?*</label>
+                                <select id="ailmentCategory" name="ailmentCategory" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white" required="">
+                                    <option value="" disabled="" selected="" id="el-rqt7s5y6">Select a category</option>
+                                    <option value="cold" id="el-z6v4yc6h">Cold &amp; Flu</option>
+                                    <option value="cough" id="el-9izan3on">Cough</option>
+                                    <option value="fever" id="el-sugi19lu">Fever</option>
+                                    <option value="digestive" id="el-4762vs91">Digestive Issues</option>
+                                    <option value="skin" id="el-l7uylzga">Skin Problems</option>
+                                    <option value="pain" id="el-zxt4365z">Pain Relief</option>
+                                    <option value="sleep" id="el-o4br23wy">Sleep Issues</option>
+                                    <option value="stress" id="el-eu4tnopp">Stress &amp; Anxiety</option>
+                                    <option value="womensHealth" id="el-0p2dsmuo">Women's Health</option>
+                                    <option value="immunity" id="el-iwi83ka3">Immunity Boosting</option>
+                                    <option value="other" id="el-pmzleei7">Other (Please specify)</option>
+                                </select>
+                                </div>
+                                
+                                <div class="mb-5" id="el-2p5rukwh">
+                                <label for="ingredients" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-vp593jp5">Ingredients*</label>
+                                <textarea id="ingredients" name="ingredients" rows="3" placeholder="List all ingredients with approximate quantities" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white" required=""></textarea>
+                                </div>
+                                
+                                <div class="mb-5" id="el-2902kvcd">
+                                <label for="preparation" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-2jabtbb9">Preparation Method*</label>
+                                <textarea id="preparation" name="preparation" rows="4" placeholder="Explain how to prepare this remedy" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white" required=""></textarea>
+                                </div>
+                                
+                                <div class="mb-5" id="el-6t3rprsk">
+                                <label for="usage" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-rguperu5">How to Use*</label>
+                                <textarea id="usage" name="usage" rows="2" placeholder="How often should this remedy be used? Any specific instructions?" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white" required=""></textarea>
+                                </div>
+                                
+                                <div class="mb-5" id="el-qedy9jlo">
+                                <label for="origin" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-ynw1dya9">Origin/Background (Optional)</label>
+                                <textarea id="origin" name="origin" rows="2" placeholder="Share the story behind this remedy. Is it from your grandmother? A family tradition?" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white"></textarea>
+                                </div>
+                                
+                                <div class="mb-6" id="el-0t8o759d">
+                                <label for="precautions" class="block text-gray-700 dark:text-gray-300 mb-2" id="el-au61o2et">Precautions/Side Effects (Optional but Recommended)</label>
+                                <textarea id="precautions" name="precautions" rows="2" placeholder="Any known allergies, contraindications, or precautions users should be aware of?" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-neutral-700 text-gray-800 dark:text-white"></textarea>
+                                </div>
+                                
+                                <div class="mb-6" id="el-uan156hy">
+                                <div class="flex items-center" id="el-8ynkyosn">
+                                    <input type="checkbox" id="consent" name="consent" class="h-5 w-5 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded" required=""/>
+                                    <label for="consent" class="ml-2 block text-gray-700 dark:text-gray-300" id="el-b8mwsrqv">
+                                    I confirm this is a traditional remedy and all information provided is accurate to the best of my knowledge.*
+                                    </label>
+                                </div>
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300" id="el-p0ds9ldg">
+                                Submit Remedy
+                                </button>
+                            </form>
+                            </div>
+                    </div>
+                    </div>
+                )}
+
+
+                </div>
+            </section>
+            
 
         </div>
     )
