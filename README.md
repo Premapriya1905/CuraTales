@@ -15,8 +15,9 @@
 
 ## **Tech Stack**
 ### **Frontend**
-- **HTML, CSS, JavaScript**: Core technologies for building the user interface.
 - **React.js**: A JavaScript library for building dynamic and responsive UIs.
+- **Tailwind.css**: A platform for building custom user interfaces.
+- **Socket.io**:  A library that facilitates real-time, bidirectional, and event-based communication between a client and a server
 
 ### **Backend**
 - **Node.js**: A JavaScript runtime for building the server.
