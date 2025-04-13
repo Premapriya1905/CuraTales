@@ -20,17 +20,17 @@ function Remedies() {
   });
 
   const categories = [
-    "all", 
-    "cold", 
-    "fever", 
-    "stomach problems", 
+    "all",
+    "cold",
+    "fever",
+    "stomach problems",
     "skin care",
-    "Hair care", 
-    "pain relief", 
-    "immunity boosting", 
-    "urinary", 
-    "Women's health", 
-    "other's"
+    "Hair care",
+    "pain relief",
+    "immunity boosting",
+    "urinary",
+    "Women's health",
+    "other's",
   ];
 
   return (
@@ -42,12 +42,18 @@ function Remedies() {
           <div className="flex flex-col items-center mb-6 sm:mb-10 px-4 gap-4">
             {/* Search Input */}
             <div className="relative w-full max-w-md">
-      
+              <input
+                type="text"
+                placeholder="🔍 Search for a remedy..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-neutral-800 text-white border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#5E8B7E]"
+              />
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400">
-                
+                🔍
               </div>
             </div>
-            
+
             {/* Dropdown Menu */}
             <div className="relative w-full max-w-md">
               <button
@@ -55,9 +61,10 @@ function Remedies() {
                 className="inline-flex justify-between w-full rounded-xl px-4 py-3 bg-neutral-800 border border-neutral-700 text-sm sm:text-base text-white focus:outline-none focus:ring-2 focus:ring-[#5E8B7E]"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                {activeCategory === "all" 
-                  ? "🔍 Search by category/remedy" 
-                  : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+                {activeCategory === "all"
+                  ? "🔍 Search by category/remedy"
+                  : activeCategory.charAt(0).toUpperCase() +
+                    activeCategory.slice(1)}
                 <svg
                   className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-200 ${
                     isDropdownOpen ? "transform rotate-180" : ""
@@ -93,7 +100,8 @@ function Remedies() {
                       >
                         {category === "all"
                           ? "All Remedies"
-                          : category.charAt(0).toUpperCase() + category.slice(1)}
+                          : category.charAt(0).toUpperCase() +
+                            category.slice(1)}
                       </button>
                     ))}
                   </div>
