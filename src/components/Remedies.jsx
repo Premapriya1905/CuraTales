@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./navbar";
 import RemedyModal from "./RemedyModal";
 import remediesData from "../Data/remediesData";
 
