@@ -17,7 +17,6 @@
 ### **Frontend**
 - **React.js**: A JavaScript library for building dynamic and responsive UIs.
 - **Tailwind.css**: A platform for building custom user interfaces.
-- **Socket.io**:  A library that facilitates real-time, bidirectional, and event-based communication between a client and a server
 
 ### **Backend**
 - **Node.js**: A JavaScript runtime for building the server.
@@ -32,6 +31,9 @@
 ### **Hosting**
 - **Frontend**: Hosted on **Netlify**.
 - **Backend**: Hosted on **Render**.
+
+**ChatApp seperate repo link**
+[https://github.com/Premapriya1905/ChatApp.git]
 
 ---
 
