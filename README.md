@@ -2,6 +2,8 @@
 
 **CuraTales** is a domestic medicine forum to be clear a hand remedies platform that provides traditional home remedies for common ailments like cough, cold, fever, menstrual issues, injuries, and more without side effects. There is no need of doctor when we have our elders ideas. It’s a platform to share and discover like you say your elders or grandma’s wisdom for staying healthy and living long.And also we will have a community for the users to communicate about their ideas and feedbacks too. Also we will have a page for healthy recipies for the chefs in our homes who daily think of what to cook.
 
+**Frontend Deployment Link** (Netlify) - ( https://hilarious-cascaron-1d4e92.netlify.app/ )
+
 ---
 
 ## **Features**
