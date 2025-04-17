@@ -17,7 +17,7 @@ const Navbar = () =>{
                     <li><a href="#features" className="hover:text-[#E2703A] transition duration-300 font-['Poppins,_sans-serif']" target="_self">Features</a></li>
                     <li><a href="#remedies" className="hover:text-[#E2703A] transition duration-300 font-['Poppins,_sans-serif']" target="_self">Remedies</a></li>
                     <li><a href="#community" className="hover:text-[#E2703A] transition duration-300 font-['Poppins,_sans-serif']" target="_self">Community</a></li>
-                    <li><a href="#hero" className="hover:text-[#E2703A] transition duration-300 font-['Poppins,_sans-serif']" style={{height: '97px'}} target="_self">Recipes</a></li>
+                    <li> <a href="#hero" className="hover:text-[#E2703A] transition duration-300 font-['Poppins,_sans-serif']" style={{height: '97px'}} target="_self">Recipes</a></li>
                 </ul>
                 </div>
             </nav>

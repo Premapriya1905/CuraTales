@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Navbar from "../components/navbar";
+import Navbar from "./navbar";
 import remediesData from "../Data/remediesData";
 import RemedyModal from "./RemedyModal";
 import { Link } from "react-router-dom";
