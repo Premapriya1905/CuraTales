@@ -3,13 +3,16 @@ import Navbar from "./navbar";
 import remediesData from "../Data/remediesData";
 import RemedyModal from "./RemedyModal";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Landing = () => {
   const [selectedRemedy, setSelectedRemedy] = useState(null);
-  const firstSixRemedies = remediesData.slice(0, 6);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const firstSixRemedies = remediesData.slice(0, 6);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -39,6 +42,15 @@ const Landing = () => {
       document.body.style.overflow = "";
     };
   }, [isModalOpen]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  const handleTagClick = (tag) => {
+    setSearchTerm(tag);
+    navigate(`/Remedies?search=${encodeURIComponent(tag)}`);
+  }
+
 
   return (
     <div>
@@ -78,7 +90,8 @@ const Landing = () => {
                 >
                   Explore Remedies
                 </a>
-                <button onClick={openModal}
+                <button
+                  onClick={openModal}
                   className="bg-transparent border-2 border-[#A7C4BC] hover:bg-[#A7C4BC] hover:text-neutral-900 text-[#A7C4BC] py-3 px-6 rounded-lg font-medium transition duration-300 text-center font-['Poppins,_sans-serif']"
                   target="_self"
                 >
@@ -102,8 +115,16 @@ const Landing = () => {
                   <input
                     type="text"
                     placeholder="Search symptoms or ailments..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        navigate(`/remedies?search=${encodeURIComponent(searchTerm)}`);
+                      }
+                    }}
                     className="w-full bg-neutral-700 border border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#E2703A] transition duration-300 font-['Poppins,_sans-serif']"
                   />
+
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#E2703A]">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -123,19 +144,19 @@ const Landing = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <span className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
+                  <span  onClick={() => handleTagClick("Cough")} className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
                     Cough
                   </span>
-                  <span className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
+                  <span  onClick={() => handleTagClick("Fever")} className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
                     Fever
                   </span>
-                  <span className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
+                  <span  onClick={() => handleTagClick("Cold")} className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
                     Cold
                   </span>
-                  <span className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
+                  <span  onClick={() => handleTagClick("Headache")} className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
                     Headache
                   </span>
-                  <span className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
+                  <span  onClick={() => handleTagClick("Digestion")} className="popular-tag bg-neutral-700 hover:bg-[#5E8B7E] text-sm py-1 px-3 rounded-full cursor-pointer transition duration-300 font-['Poppins,_sans-serif']">
                     Digestion
                   </span>
                 </div>
@@ -1221,7 +1242,10 @@ const Landing = () => {
       </section>
 
       {/* section4 */}
-      <section id="remedies" className="remedies py-20 bg-neutral-900 text-white">
+      <section
+        id="remedies"
+        className="remedies py-20 bg-neutral-900 text-white"
+      >
         <div className="container mx-auto px-4">
           <div
             className="text-center mb-16 animate__animated animate__fadeIn"
@@ -1239,54 +1263,6 @@ const Landing = () => {
               generations. These solutions use simple ingredients found in most
               kitchens.
             </p>
-          </div>
-
-          <div
-            className="flex flex-wrap justify-center gap-2 md:gap-4 remedy-tabs mb-15"
-            id="el-hmbecuv4"
-          >
-            <button
-              className="px-5 py-2 rounded-full bg-[#5E8B7E] text-white active font-['Poppins,_sans-serif']"
-              data-category="all"
-              id="el-kmomauvw"
-            >
-              All Remedies
-            </button>
-            <button
-              className="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']"
-              data-category="cold"
-              id="el-tdxggd77"
-            >
-              Cold &amp; Cough
-            </button>
-            <button
-              className="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']"
-              data-category="fever"
-              id="el-u5yeosgu"
-            >
-              Fever
-            </button>
-            <button
-              className="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']"
-              data-category="digestive"
-              id="el-zfb8cvsv"
-            >
-              Digestive
-            </button>
-            <button
-              className="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']"
-              data-category="skin"
-              id="el-6df1jomi"
-            >
-              Skin Care
-            </button>
-            <button
-              className="px-5 py-2 rounded-full bg-neutral-800 text-white hover:bg-[#5E8B7E] transition duration-300 font-['Poppins,_sans-serif']"
-              data-category="pain"
-              id="el-3ar64zlk"
-            >
-              Pain Relief
-            </button>
           </div>
 
           {/* Remedy Cards */}
