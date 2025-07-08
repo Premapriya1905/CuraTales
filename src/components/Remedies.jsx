@@ -1,23 +1,31 @@
-import { useState } from "react";
-import Navbar from "../components/navbar";
+import { useState, useEffect } from "react";
+import Navbar from "./navbar";
 import RemedyModal from "./RemedyModal";
 import remediesData from "../Data/remediesData";
+import { useLocation } from "react-router-dom";
 
 function Remedies() {
   const [selectedRemedy, setSelectedRemedy] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const location = useLocation();
 
   const filteredRemedies = remediesData.filter((remedy) => {
-    const matchesSearch =
-      remedy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      remedy.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      activeCategory === "all" ||
-      remedy.category.toLowerCase().includes(activeCategory.toLowerCase());
-    return matchesSearch && matchesCategory;
-  });
+  const normalizedCategory = remedy.category.toLowerCase().replace(/\s/g, '');
+  const normalizedActiveCategory = activeCategory.toLowerCase().replace(/\s/g, '');
+
+  const matchesSearch =
+    remedy.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    normalizedCategory.includes(searchTerm.toLowerCase().replace(/\s/g, ''));
+
+  const matchesCategory =
+    normalizedActiveCategory === "all" ||
+    normalizedCategory.includes(normalizedActiveCategory);
+
+  return matchesSearch && matchesCategory;
+});
+
 
   const categories = [
     "all",
@@ -31,7 +39,18 @@ function Remedies() {
     "urinary",
     "Women's health",
     "other's",
-  ];
+  ]; 
+
+  useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const tag = params.get("search");
+
+  if (tag) {
+    setSearchTerm(tag);
+    setActiveCategory(tag.toLowerCase());
+  }
+}, [location.search]);
+
 
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-hidden">
@@ -44,7 +63,7 @@ function Remedies() {
             <div className="relative w-full max-w-md">
               <input
                 type="text"
-                placeholder="🔍 Search for a remedy..."
+                placeholder="Search for a remedy..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-neutral-800 text-white border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#5E8B7E]"
@@ -53,61 +72,34 @@ function Remedies() {
                 🔍
               </div>
             </div>
+          </div>
 
-            {/* Dropdown Menu */}
-            <div className="relative w-full max-w-md">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4 remedy-tabs mb-15">
+            {[
+              { label: "All Remedies", value: "all" },
+              { label: "Cold & Cough", value: "cold" },
+              { label: "Fever", value: "fever" },
+              { label: "Skin Care", value: "skin" },
+              { label: "Pain Relief", value: "pain" },
+              { label: "Stomach problems", value: "stomach" },
+              { label: "Immunity", value: "immunity" },
+              { label: "Urinary", value: "urinary" },
+              { label: "Women's health", value: "women's health" },
+              { label: "Other's", value: "other's" },
+            ].map((cat) => (
               <button
-                type="button"
-                className="inline-flex justify-between w-full rounded-xl px-4 py-3 bg-neutral-800 border border-neutral-700 text-sm sm:text-base text-white focus:outline-none focus:ring-2 focus:ring-[#5E8B7E]"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                {activeCategory === "all"
-                  ? "🔍 Search by category/remedy"
-                  : activeCategory.charAt(0).toUpperCase() +
-                    activeCategory.slice(1)}
-                <svg
-                  className={`-mr-1 ml-2 h-5 w-5 transition-transform duration-200 ${
-                    isDropdownOpen ? "transform rotate-180" : ""
+                key={cat.value}
+                className={`px-5 py-2 rounded-full transition duration-300 font-['Poppins,_sans-serif']
+                  ${
+                    activeCategory === cat.value
+                      ? "bg-[#5E8B7E] text-white"
+                      : "bg-neutral-800 text-white hover:bg-[#5E8B7E]"
                   }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                onClick={() => setActiveCategory(cat.value)}
+              >
+                {cat.label}
               </button>
-
-              {isDropdownOpen && (
-                <div className="origin-top-right absolute right-0 left-0 z-10 mt-2 rounded-xl shadow-lg bg-neutral-800 border border-neutral-700 focus:outline-none">
-                  <div className="py-1 max-h-60 overflow-y-auto">
-                    {categories.map((category) => (
-                      <button
-                        key={category}
-                        className={`block w-full text-left px-4 py-2 text-sm sm:text-base text-white ${
-                          activeCategory === category
-                            ? "bg-[#5E8B7E]"
-                            : "hover:bg-neutral-700"
-                        }`}
-                        onClick={() => {
-                          setActiveCategory(category);
-                          setIsDropdownOpen(false);
-                        }}
-                      >
-                        {category === "all"
-                          ? "All Remedies"
-                          : category.charAt(0).toUpperCase() +
-                            category.slice(1)}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            ))}
           </div>
 
           {/* Remedy Cards */}
