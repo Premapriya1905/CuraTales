@@ -575,6 +575,37 @@ const remediesData = [
       "Link for the product(Paruthi Pal instant mix) - https://www.instagram.com/urbansprouts.in/"
     ],
   },
+
+  {
+    id: 34 ,
+    category: "Other's",
+    title: "Lower Blood Pressure Naturally",
+    rating: 4.0,
+    shortDescription:
+      "Natural ways to lower blood pressure, Ayurvedic remedy for BP, Improve blood circulation naturally.",
+    ingredients: ["(Jhansi) Sarpagandha, Jatamansi, Garlic, Pterocarpus marsupium bark, And many more like this"],
+    instructions: [
+      "It is better to buy this from the mentioned link rather than making it at home as it is a complex process.",
+      "Link -  https://www.amazon.in/Kapiva-Ayurveda-BP-Sure-Juice/dp/B07DRF6JFN ",
+      "Consult a healthcare professional before using any herbal remedies, especially if you have a medical condition or take medication."
+    ],
+  },
+
+  {
+    id: 35,
+    category: "Skin care",
+    title: "Remove Dark & Patchy Lips Naturally",
+    rating: 4.0,
+    shortDescription:
+      "Get soft, pink, and glassy rose lips at home.",
+    ingredients: ["Coconut Oil , Sugar, Turmeric, Honey"],
+    instructions: [
+      "Mix all the above ingredients in the required amount and apply to your lips.",
+      "Then wash off with warm water after 10-15 mins.",
+      "Repeat this remedy 2-3 times a week for best results.",
+    ],
+  },
+
 ];
 
 export default remediesData;
